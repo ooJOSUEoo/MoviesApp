@@ -13,13 +13,11 @@ export function getImageURL(posterPath: string) {
   return "https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg";
 }
 
-export async function getPopularMovies(page: number = 1) {
+export async function getNowPlaying() {
   try {
-    if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/popular?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+      `${infoAPI.url}/3/movie/now_playing?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
     );
-
     return resp.data.results;
   } catch (error) {
     console.log(error);
@@ -27,11 +25,13 @@ export async function getPopularMovies(page: number = 1) {
   }
 }
 
-export async function getNowPlaying() {
+export async function getPopularMovies(page: number = 1) {
   try {
+    if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/now_playing?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/popular?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
     );
+
     return resp.data.results;
   } catch (error) {
     console.log(error);
@@ -81,6 +81,30 @@ export async function getMovieCast(id: number) {
       `${infoAPI.url}/3/movie/${id}/credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
     );
     return resp.data.cast;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function getAlternativeTitles(id: number) {
+  try {
+    const resp = await axios.get(
+      `${infoAPI.url}/3/movie/${id}/alternative_titles?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+    );
+    return resp.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function getSearchMovie(query: string) {
+  try {
+    const resp = await axios.get(
+      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=true&query=${query}`,
+    );
+    return resp.data.results;
   } catch (error) {
     console.log(error);
     return false;

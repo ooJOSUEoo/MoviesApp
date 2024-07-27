@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { getMovieDetails, getImageURL, getMovieCast } from "@/lib/themoviedb";
 import { Score } from "../../components/Score";
 import { FA } from "@/components/Icons";
-import { AnimatedCastCard } from "@/components/castCard ";
+import { AnimatedCastCard } from "@/components/castCard";
 
 export default function Detail() {
   const { id } = useLocalSearchParams();
