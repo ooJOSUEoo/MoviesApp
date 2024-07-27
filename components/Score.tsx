@@ -14,7 +14,7 @@ export function Score({ cN, score, maxScore }: any) {
     <View
       className={`${color} w-5 h-5 rounded-full justify-center items-center ${cN}`}
     >
-      <Text className="text-sm font-bold text-white">{score}</Text>
+      <Text className="text-xs font-bold text-white mt-[1px]">{score}</Text>
     </View>
   );
 }

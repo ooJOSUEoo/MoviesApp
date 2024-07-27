@@ -1,6 +1,9 @@
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import {
+  FontAwesome6,
+  FontAwesome,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 export const FA6 = ({
   name,
@@ -24,7 +27,7 @@ export const FA = ({
   color?: string;
   props?: any;
 }) => <FontAwesome name={name} size={size} color={color} {...props} />;
-export const MA = ({
+export const MI = ({
   name,
   size = 24,
   color = "white",
@@ -35,3 +38,16 @@ export const MA = ({
   color?: string;
   props?: any;
 }) => <MaterialIcons name={name} size={size} color={color} {...props} />;
+export const MCI = ({
+  name,
+  size = 24,
+  color = "white",
+  props,
+}: {
+  name: string;
+  size?: number;
+  color?: string;
+  props?: any;
+}) => (
+  <MaterialCommunityIcons name={name} size={size} color={color} {...props} />
+);

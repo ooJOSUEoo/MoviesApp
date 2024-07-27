@@ -12,7 +12,7 @@ import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { getMovieDetails, getImageURL, getMovieCast } from "@/lib/themoviedb";
 import { Score } from "../../components/Score";
-import { FA } from "@/components/Icons";
+import { FA, MI } from "@/components/Icons";
 import { AnimatedCastCard } from "@/components/castCard";
 
 export default function Detail() {
@@ -60,7 +60,8 @@ export default function Detail() {
               />
               <Score cN="" score={movieInfo.vote_average} maxScore={10} />
               <Text className="text-white/70 text-left mb-3 text-base font-bold">
-                {movieInfo.title}
+                {movieInfo.title}{" "}
+                {movieInfo.adult && <MI name="18-up-rating" color="red" />}
               </Text>
               <Text className="text-white/70 text-left mb-3 text-base">
                 <FA name="calendar" /> {movieInfo.release_date}

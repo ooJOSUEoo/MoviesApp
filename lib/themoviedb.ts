@@ -75,6 +75,18 @@ export async function getMovieDetails(id: number) {
   }
 }
 
+export async function getSearchMovie(query: string) {
+  try {
+    const resp = await axios.get(
+      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=true&query=${query}`,
+    );
+    return resp.data.results;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 export async function getMovieCast(id: number) {
   try {
     const resp = await axios.get(
@@ -87,10 +99,10 @@ export async function getMovieCast(id: number) {
   }
 }
 
-export async function getAlternativeTitles(id: number) {
+export async function getCastDetails(id: number) {
   try {
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/${id}/alternative_titles?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/person/${id}?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
     );
     return resp.data;
   } catch (error) {
@@ -99,12 +111,12 @@ export async function getAlternativeTitles(id: number) {
   }
 }
 
-export async function getSearchMovie(query: string) {
+export async function getMoviesFromCast(id: number) {
   try {
     const resp = await axios.get(
-      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=true&query=${query}`,
+      `${infoAPI.url}/3/person/${id}/movie_credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
     );
-    return resp.data.results;
+    return resp.data.cast;
   } catch (error) {
     console.log(error);
     return false;
