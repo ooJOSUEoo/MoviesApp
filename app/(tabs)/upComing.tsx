@@ -5,12 +5,14 @@ import { Screen } from "@/components/Screen";
 import { AnimatedMovieCard } from "@/components/movieCard";
 
 export default function UpComing() {
-  const [upComingMovies, setUpComingMovies] = useState([]);
+  const [upComingMovies, setUpComingMovies] = useState<any>([]);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    getUpcomingMovies().then((movies) => {
-      setUpComingMovies(movies);
+    getUpcomingMovies(page).then((movies) => {
+      setUpComingMovies([...upComingMovies, ...movies]);
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Screen>
@@ -18,6 +20,9 @@ export default function UpComing() {
         <ActivityIndicator color={"#fff"} size={"large"} />
       ) : (
         <FlatList
+          onEndReached={() => {
+            setPage(page + 1);
+          }}
           contentContainerStyle={{
             alignItems: "center",
           }}

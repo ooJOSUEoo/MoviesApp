@@ -13,10 +13,11 @@ export function getImageURL(posterPath: string) {
   return "https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg";
 }
 
-export async function getNowPlaying() {
+export async function getNowPlaying(page: number = 1) {
   try {
+    if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/now_playing?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/now_playing?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -39,10 +40,11 @@ export async function getPopularMovies(page: number = 1) {
   }
 }
 
-export async function getTopRatedMovies() {
+export async function getTopRatedMovies(page: number = 1) {
   try {
+    if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/top_rated?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/top_rated?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -51,10 +53,11 @@ export async function getTopRatedMovies() {
   }
 }
 
-export async function getUpcomingMovies() {
+export async function getUpcomingMovies(page: number = 1) {
   try {
+    if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/upcoming?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/upcoming?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {

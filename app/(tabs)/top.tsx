@@ -5,12 +5,14 @@ import { Screen } from "@/components/Screen";
 import { AnimatedMovieCard } from "@/components/movieCard";
 
 export default function Top() {
-  const [topMovies, setTopMovies] = useState([]);
+  const [topMovies, setTopMovies] = useState<any>([]);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    getTopRatedMovies().then((movies) => {
-      setTopMovies(movies);
+    getTopRatedMovies(page).then((movies) => {
+      setTopMovies([...topMovies, ...movies]);
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Screen>
@@ -18,6 +20,9 @@ export default function Top() {
         <ActivityIndicator color={"#fff"} size={"large"} />
       ) : (
         <FlatList
+          onEndReached={() => {
+            setPage(page + 1);
+          }}
           contentContainerStyle={{
             alignItems: "center",
           }}

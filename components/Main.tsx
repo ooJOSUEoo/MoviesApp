@@ -5,12 +5,14 @@ import { AnimatedMovieCard } from "./movieCard";
 import { Screen } from "./Screen";
 
 export function Main() {
-  const [nowMovies, setNowMovies] = useState([]);
+  const [nowMovies, setNowMovies] = useState<any>([]);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    getNowPlaying().then((movies) => {
-      setNowMovies(movies);
+    getNowPlaying(page).then((movies) => {
+      setNowMovies([...nowMovies, ...movies]);
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Screen>
@@ -18,6 +20,9 @@ export function Main() {
         <ActivityIndicator color={"#fff"} size={"large"} />
       ) : (
         <FlatList
+          onEndReached={() => {
+            setPage(page + 1);
+          }}
           contentContainerStyle={{
             alignItems: "center",
           }}

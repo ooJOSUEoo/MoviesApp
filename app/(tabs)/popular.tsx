@@ -5,12 +5,14 @@ import { Screen } from "@/components/Screen";
 import { AnimatedMovieCard } from "@/components/movieCard";
 
 export default function Popular() {
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [popularMovies, setPopularMovies] = useState<any>([]);
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    getPopularMovies().then((movies) => {
-      setPopularMovies(movies);
+    getPopularMovies(page).then((movies) => {
+      setPopularMovies([...popularMovies, ...movies]);
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Screen>
@@ -18,6 +20,9 @@ export default function Popular() {
         <ActivityIndicator color={"#fff"} size={"large"} />
       ) : (
         <FlatList
+          onEndReached={() => {
+            setPage(page + 1);
+          }}
           contentContainerStyle={{
             alignItems: "center",
           }}
