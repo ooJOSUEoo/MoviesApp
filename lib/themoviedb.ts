@@ -74,3 +74,15 @@ export async function getMovieDetails(id: number) {
     return false;
   }
 }
+
+export async function getMovieCast(id: number) {
+  try {
+    const resp = await axios.get(
+      `${infoAPI.url}/3/movie/${id}/credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+    );
+    return resp.data.cast;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
