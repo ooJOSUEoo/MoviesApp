@@ -14,6 +14,7 @@ import { getMovieDetails, getImageURL, getMovieCast } from "@/lib/themoviedb";
 import { Score } from "../../components/Score";
 import { FA, MI } from "@/components/Icons";
 import { AnimatedCastCard } from "@/components/castCard";
+import ImageZoom from "@/components/ImageZoom";
 
 export default function Detail() {
   const { id } = useLocalSearchParams();
@@ -48,15 +49,17 @@ export default function Detail() {
         ) : (
           <ScrollView>
             <View className="relative justify-center items-center text-center">
-              <Image
-                className="mb-4 rounded"
-                source={{ uri: getImageURL(movieInfo.backdrop_path) }}
-                style={{ width: `${100}%`, height: 180 }}
+              <ImageZoom
+                cN="mb-4 rounded"
+                url={getImageURL(movieInfo.backdrop_path)}
+                w={`${100}%`}
+                h={180}
               />
-              <Image
-                className="rounded -mt-20"
-                source={{ uri: getImageURL(movieInfo.poster_path) }}
-                style={{ width: 100, height: 150 }}
+              <ImageZoom
+                cN="rounded -mt-20"
+                url={getImageURL(movieInfo.poster_path)}
+                w={100}
+                h={150}
               />
               <Score cN="" score={movieInfo.vote_average} maxScore={10} />
               <Text className="text-white/70 text-left mb-3 text-base font-bold">

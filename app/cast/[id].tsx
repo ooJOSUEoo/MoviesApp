@@ -17,6 +17,7 @@ import {
 } from "@/lib/themoviedb";
 import { FA, MCI, MI } from "@/components/Icons";
 import { AnimatedMovieCard } from "@/components/movieCard";
+import ImageZoom from "@/components/ImageZoom";
 
 export default function Detail() {
   const { id } = useLocalSearchParams();
@@ -51,15 +52,11 @@ export default function Detail() {
         ) : (
           <ScrollView>
             <View className="relative justify-center items-center text-center">
-              {/* <Image
-                className="mb-4 rounded"
-                source={{ uri: getImageURL(castInfo.backdrop_path) }}
-                style={{ width: `${100}%`, height: 180 }}
-              /> */}
-              <Image
-                className="rounded"
-                source={{ uri: getImageURL(castInfo.profile_path) }}
-                style={{ width: 100, height: 150 }}
+              <ImageZoom
+                cN="rounded"
+                url={getImageURL(castInfo.profile_path)}
+                w={100}
+                h={150}
               />
               <Text className="text-white/70 text-left mb-3 text-base font-bold">
                 {castInfo.name}{" "}
