@@ -2,6 +2,7 @@ import { styled } from "nativewind";
 import { useState } from "react";
 import { Image, Pressable, View } from "react-native";
 import { MI } from "./Icons";
+import React from "react";
 
 export default function ImageZoom({ url, w, h, cN }: any) {
   const StyledPressable = styled(Pressable);

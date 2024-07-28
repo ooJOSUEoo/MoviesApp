@@ -4,6 +4,7 @@ import { Screen } from "../../components/Screen";
 import { useEffect, useState } from "react";
 import { getSearchMovie } from "@/lib/themoviedb";
 import { AnimatedMovieCard } from "@/components/movieCard";
+import React from "react";
 
 export default function Search() {
   const { search } = useLocalSearchParams();

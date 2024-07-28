@@ -3,6 +3,7 @@ import { FlatList, ActivityIndicator } from "react-native";
 import { getTopRatedMovies } from "@/lib/themoviedb";
 import { Screen } from "@/components/Screen";
 import { AnimatedMovieCard } from "@/components/movieCard";
+import React from "react";
 
 export default function Top() {
   const [topMovies, setTopMovies] = useState<any>([]);

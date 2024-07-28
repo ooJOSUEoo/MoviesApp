@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   ScrollView,
   Text,
   View,
@@ -15,6 +14,8 @@ import { Score } from "../../components/Score";
 import { FA, MI } from "@/components/Icons";
 import { AnimatedCastCard } from "@/components/castCard";
 import ImageZoom from "@/components/ImageZoom";
+import VideoScreen from "@/components/Video";
+import React from "react";
 
 export default function Detail() {
   const { id } = useLocalSearchParams();
@@ -84,13 +85,19 @@ export default function Detail() {
               </Text>
               <FlatList
                 horizontal
-                className=" pb-5"
+                className=""
                 data={movieCast}
                 keyExtractor={(cast: any, index) => index.toString()}
                 renderItem={({ item, index }) => (
                   <AnimatedCastCard cast={item} index={index} />
                 )}
               />
+              <View className="w-full h-[1px] bg-gray-500"></View>
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                Similares
+              </Text>
+              <View className="w-full h-10 bg-transparent"></View>
+              {/* <VideoScreen /> */}
             </View>
           </ScrollView>
         )}

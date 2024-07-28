@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   ScrollView,
   Text,
   View,
@@ -18,6 +17,7 @@ import {
 import { FA, MCI, MI } from "@/components/Icons";
 import { AnimatedMovieCard } from "@/components/movieCard";
 import ImageZoom from "@/components/ImageZoom";
+import React from "react";
 
 export default function Detail() {
   const { id } = useLocalSearchParams();

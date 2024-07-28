@@ -4,6 +4,7 @@ import { FA, FA6 } from "../../components/Icons";
 
 import { styled } from "nativewind";
 import { Screen } from "../../components/Screen";
+import React from "react";
 
 const StyledPressable = styled(Pressable);
 

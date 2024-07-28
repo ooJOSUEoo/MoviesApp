@@ -1,5 +1,7 @@
 import { router, Stack } from "expo-router";
 import {
+  Alert,
+  BackHandler,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -8,14 +10,47 @@ import {
   View,
 } from "react-native";
 import { FA6 } from "../components/Icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSearchMovie } from "@/lib/themoviedb";
 import { AnimatedSearchCard } from "@/components/searchCard";
+import * as Network from "expo-network";
+import React from "react";
 
 export default function Layout() {
+  const [isConnected, setIsConnected] = useState<any>(null);
   const [isSearch, setIsSearch] = useState(false);
   const [search, setSearch] = useState("");
   const [searchMovies, setSearchMovies] = useState<any>([]);
+
+  useEffect(() => {
+    const checkNetworkStatus = async () => {
+      const networkState = await Network.getNetworkStateAsync();
+      setIsConnected(networkState.isConnected);
+    };
+
+    checkNetworkStatus();
+
+    Network.getNetworkStateAsync().then((state) => {
+      setIsConnected(state.isConnected);
+
+      if (!state.isConnected) {
+        Alert.alert("Network Error", "No tiene conexión a Internet", [
+          // {
+          //   text: "Cancel",
+          //   onPress: () => console.log("Cancel Pressed"),
+          //   style: "cancel",
+          // },
+          {
+            text: "OK",
+            onPress: () => {
+              BackHandler.exitApp();
+            },
+          },
+        ]);
+      }
+    });
+  }, []);
+
   return (
     <View className="relative flex-1 bg-black">
       <Stack
@@ -78,6 +113,13 @@ export default function Layout() {
           ),
         }}
       />
+      {/* {isConnected === null ? (
+        <></>
+      ) : isConnected ? (
+        <Text className="text-white">Connected</Text>
+      ) : (
+        <Text>No internet connection</Text>
+      )} */}
       {search && isSearch && (
         <View className="absolute top-[60px] pt-4 pb-[100px] left-0 z-10 bg-black/90 w-full h-full px-6">
           <FlatList

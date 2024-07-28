@@ -3,6 +3,7 @@ import { FlatList, ActivityIndicator } from "react-native";
 import { getPopularMovies } from "@/lib/themoviedb";
 import { Screen } from "@/components/Screen";
 import { AnimatedMovieCard } from "@/components/movieCard";
+import React from "react";
 
 export default function Popular() {
   const [popularMovies, setPopularMovies] = useState<any>([]);

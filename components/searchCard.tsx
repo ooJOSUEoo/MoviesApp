@@ -4,6 +4,7 @@ import { Link } from "expo-router";
 import { styled } from "nativewind";
 import { getImageURL } from "@/lib/themoviedb";
 import { MI } from "./Icons";
+import React from "react";
 
 const StyledPressable = styled(Pressable);
 

@@ -3,6 +3,7 @@ import { FlatList, ActivityIndicator } from "react-native";
 import { getNowPlaying } from "@/lib/themoviedb";
 import { AnimatedMovieCard } from "./movieCard";
 import { Screen } from "./Screen";
+import React from "react";
 
 export function Main() {
   const [nowMovies, setNowMovies] = useState<any>([]);

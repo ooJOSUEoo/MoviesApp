@@ -4,6 +4,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import React from "react";
 
 export const FA6 = ({
   name,

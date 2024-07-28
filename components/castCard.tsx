@@ -3,6 +3,7 @@ import { View, Image, Animated, Pressable, Text } from "react-native";
 import { Link } from "expo-router";
 import { styled } from "nativewind";
 import { getImageURL } from "@/lib/themoviedb";
+import React from "react";
 
 const StyledPressable = styled(Pressable);
 

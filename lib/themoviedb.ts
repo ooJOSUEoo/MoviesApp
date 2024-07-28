@@ -2,7 +2,7 @@ import axios from "axios";
 
 const infoAPI = {
   url: "https://api.themoviedb.org",
-  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  apiKey: "6c5b2f6d68fe085784ef659235cb7955",
   lang: "es-ES",
 };
 
@@ -72,6 +72,18 @@ export async function getMovieDetails(id: number) {
       `${infoAPI.url}/3/movie/${id}?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
     );
     return resp.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function getMovieVideos(id: number) {
+  try {
+    const resp = await axios.get(
+      `${infoAPI.url}/3/movie/${id}/videos?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+    );
+    return resp.data.results;
   } catch (error) {
     console.log(error);
     return false;
