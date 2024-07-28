@@ -4,6 +4,7 @@ import { Score } from "./Score";
 import { Link } from "expo-router";
 import { styled } from "nativewind";
 import { getImageURL } from "@/lib/themoviedb";
+import { MI } from "./Icons";
 
 const StyledPressable = styled(Pressable);
 
@@ -21,6 +22,11 @@ export function MovieCard({ movie }: any) {
             score={movie.vote_average}
             maxScore={10}
           />
+          {movie.adult && (
+            <View className="absolute top-0 left-0">
+              <MI name="18-up-rating" color="red" />
+            </View>
+          )}
         </View>
       </StyledPressable>
     </Link>

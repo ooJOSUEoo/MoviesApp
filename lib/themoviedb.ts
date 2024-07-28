@@ -78,10 +78,11 @@ export async function getMovieDetails(id: number) {
   }
 }
 
-export async function getSearchMovie(query: string) {
+export async function getSearchMovie(query: string, page: number = 1) {
   try {
+    if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=true&query=${query}`,
+      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=true&query=${query}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {

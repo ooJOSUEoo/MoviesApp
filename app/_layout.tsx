@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import {
   FlatList,
   Pressable,
@@ -20,15 +20,16 @@ export default function Layout() {
     <View className="relative flex-1 bg-black">
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: "black" },
+          headerStyle: { backgroundColor: "yellow" },
+          statusBarColor: "black",
           headerTintColor: "yellow",
           headerTitle: "",
           headerLeft: () => (
             <View className="flex-row items-center gap-1">
               {!isSearch && (
                 <>
-                  <FA6 name="film" />
-                  <Text className="text-white">Movies App</Text>
+                  <FA6 name="film" color="black" />
+                  <Text className="text-black">Movies App</Text>
                 </>
               )}
             </View>
@@ -36,12 +37,12 @@ export default function Layout() {
           headerRight: () => (
             <>
               {isSearch ? (
-                <View className="flex-row items-center gap-3">
+                <View className="flex-row items-center gap-3 z-20">
                   <SafeAreaView className="w-10/12">
                     <TextInput
                       focusable
                       autoFocus
-                      className="flex-1 border border-gray-400 rounded-full bg-gray-400 p-2 text-gray-600"
+                      className="flex-1 border border-gray-400 rounded-full bg-gray-100 p-2 text-gray-600"
                       onChangeText={(text) => {
                         setSearch(text);
                         if (text.length > 2) {
@@ -49,14 +50,18 @@ export default function Layout() {
                         }
                       }}
                       placeholder="Star wars"
-                      // onSubmitEditing={setIsSearch}
+                      onSubmitEditing={() => {
+                        setIsSearch(false);
+                        setSearch("");
+                        router.push(`/search/${search}`);
+                      }}
                     />
                   </SafeAreaView>
                   <Pressable
                     className="active:opacity-80"
                     onPress={() => setIsSearch(false)}
                   >
-                    <FA6 name="x" />
+                    <FA6 name="x" color="black" />
                   </Pressable>
                 </View>
               ) : (
@@ -66,7 +71,7 @@ export default function Layout() {
                     setSearch("");
                   }}
                 >
-                  <FA6 name="magnifying-glass" />
+                  <FA6 name="magnifying-glass" color="black" />
                 </Pressable>
               )}
             </>
@@ -74,7 +79,7 @@ export default function Layout() {
         }}
       />
       {search && isSearch && (
-        <View className="absolute top-[90px] pb-[100px] left-0 z-50 bg-black/90 w-full h-full px-6">
+        <View className="absolute top-[60px] pt-4 pb-[100px] left-0 z-10 bg-black/90 w-full h-full px-6">
           <FlatList
             data={searchMovies}
             keyExtractor={(movie) => movie.id}
