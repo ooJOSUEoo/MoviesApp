@@ -9,18 +9,28 @@ import { useLocalSearchParams } from "expo-router";
 import { Screen } from "../../components/Screen";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
-import { getMovieDetails, getImageURL, getMovieCast } from "@/lib/themoviedb";
+import {
+  getMovieDetails,
+  getImageURL,
+  getMovieCast,
+  getMovieVideos,
+  getSimilarMovies,
+  getVideoYTURL,
+} from "@/lib/themoviedb";
 import { Score } from "../../components/Score";
 import { FA, MI } from "@/components/Icons";
 import { AnimatedCastCard } from "@/components/castCard";
 import ImageZoom from "@/components/ImageZoom";
-import VideoScreen from "@/components/Video";
 import React from "react";
+import { AnimatedMovieCard } from "@/components/movieCard";
+import {VideoYT} from "@/components/Video";
 
 export default function Detail() {
-  const { id } = useLocalSearchParams();
+  const { id }: any = useLocalSearchParams();
   const [movieInfo, setMovieInfo] = useState<any>(null);
-  const [movieCast, setMovieCast] = useState<any>([]);
+  const [movieCast, setMovieCast] = useState<any>(null);
+  const [movieVideos, setMovieVideos] = useState<any>(null);
+  const [movieSimilars, setMovieSimilars] = useState<any>(null);
 
   useEffect(() => {
     if (id) {
@@ -28,8 +38,10 @@ export default function Detail() {
     }
   }, [id]);
   useEffect(() => {
-    if (movieInfo) {
-      getMovieCast(id as unknown as number).then(setMovieCast);
+    if (movieInfo && id) {
+      getMovieCast(id).then(setMovieCast);
+      getSimilarMovies(id).then(setMovieSimilars);
+      getMovieVideos(id).then(setMovieVideos);
     }
   }, [id, movieInfo]);
 
@@ -83,21 +95,59 @@ export default function Detail() {
               <Text className="text-white/70 text-justify mb-3 px-3 text-base">
                 {movieInfo.overview}
               </Text>
-              <FlatList
-                horizontal
-                className=""
-                data={movieCast}
-                keyExtractor={(cast: any, index) => index.toString()}
-                renderItem={({ item, index }) => (
-                  <AnimatedCastCard cast={item} index={index} />
-                )}
-              />
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                Videos
+              </Text>
+              {/* <VideoYT key="" /> */}
+              {movieVideos === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                <FlatList
+                  horizontal
+                  className=""
+                  data={movieVideos}
+                  keyExtractor={(video: any, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <View className="border-[1px] border-r-gray-500">
+                      <VideoYT key={item.key ?? ""} />
+                    </View>
+                  )}
+                />
+              )}
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                Reparto
+              </Text>
+              {movieCast === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                <FlatList
+                  horizontal
+                  className=""
+                  data={movieCast}
+                  keyExtractor={(cast: any, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <AnimatedCastCard cast={item} index={index} />
+                  )}
+                />
+              )}
               <View className="w-full h-[1px] bg-gray-500"></View>
               <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
                 Similares
               </Text>
+              {movieSimilars === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                <FlatList
+                  horizontal
+                  className=""
+                  data={movieSimilars}
+                  keyExtractor={(movie: any, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <AnimatedMovieCard movie={item} index={index} />
+                  )}
+                />
+              )}
               <View className="w-full h-10 bg-transparent"></View>
-              {/* <VideoScreen /> */}
             </View>
           </ScrollView>
         )}

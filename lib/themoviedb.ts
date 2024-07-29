@@ -2,7 +2,7 @@ import axios from "axios";
 
 const infoAPI = {
   url: "https://api.themoviedb.org",
-  apiKey: "6c5b2f6d68fe085784ef659235cb7955",
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
   lang: "es-ES",
 };
 
@@ -11,6 +11,13 @@ export function getImageURL(posterPath: string) {
     return `https://image.tmdb.org/t/p/w500${posterPath}`;
   }
   return "https://static.vecteezy.com/system/resources/thumbnails/022/014/063/small_2x/missing-picture-page-for-website-design-or-mobile-app-design-no-image-available-icon-vector.jpg";
+}
+
+export function getVideoYTURL(key: string) {
+  if (key) {
+    return `https://www.youtube.com/watch?v=${key}`;
+  }
+  return null;
 }
 
 export async function getNowPlaying(page: number = 1) {
@@ -72,6 +79,18 @@ export async function getMovieDetails(id: number) {
       `${infoAPI.url}/3/movie/${id}?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
     );
     return resp.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function getSimilarMovies(id: number) {
+  try {
+    const resp = await axios.get(
+      `${infoAPI.url}/3/movie/${id}/similar?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+    );
+    return resp.data.results;
   } catch (error) {
     console.log(error);
     return false;

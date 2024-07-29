@@ -4,18 +4,24 @@ import { Link } from "expo-router";
 import { styled } from "nativewind";
 import { getImageURL } from "@/lib/themoviedb";
 import React from "react";
+import { MI } from "./Icons";
 
 const StyledPressable = styled(Pressable);
 
 export function CastCard({ cast }: any) {
   return (
-    <Link href={`/cast/${cast.id}`} asChild className="p-1">
+    <Link href={`/cast/${cast?.id}`} asChild className="p-1">
       <StyledPressable className="active:opacity-70 mb-2 rounded-xl">
         <View className="">
           <Image
             className="w-24 h-36"
             source={{ uri: getImageURL(cast.profile_path as any) }}
           />
+          {cast.adult && (
+            <View className="absolute top-0 left-0">
+              <MI name="18-up-rating" color="red" />
+            </View>
+          )}
           <Text className="text-white w-24">{cast.name}</Text>
           <Text className="text-white/50 w-24">{cast.character}</Text>
         </View>

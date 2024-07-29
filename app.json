@@ -30,8 +30,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      "expo-video"
+      "expo-router"
     ],
     "extra": {
       "router": {

@@ -1,68 +1,32 @@
-import { useVideoPlayer, VideoView } from "expo-video";
-import React from "react";
-import { useEffect, useRef, useState } from "react";
-import { PixelRatio, StyleSheet, View, Button } from "react-native";
+import React, { useState, useCallback, useRef } from "react";
+import { Button, View, Alert } from "react-native";
+import YoutubePlayer from "react-native-youtube-iframe";
 
-const videoSource =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+export function VideoYT({key}:{key:string}) {
+  const [playing, setPlaying] = useState(false);
 
-export default function VideoScreen() {
-  const ref = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const player = useVideoPlayer(videoSource, (player) => {
-    player.loop = true;
-    player.play();
-  });
+  const onStateChange = useCallback((state: any) => {
+    // if (state === "ended") {
+    //   setPlaying(false);
+    //   Alert.alert("video has finished playing!");
+    // }
+  }, []);
 
-  useEffect(() => {
-    const subscription = player.addListener("playingChange", (isPlaying) => {
-      setIsPlaying(isPlaying);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [player]);
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
 
   return (
-    <View style={styles.contentContainer}>
-      <VideoView
-        ref={ref}
-        style={styles.video}
-        player={player}
-        allowsFullscreen
-        allowsPictureInPicture
+    <View className="">
+      <YoutubePlayer
+        height={180}
+        width={300}
+        play={playing}
+        videoId={key}
+        onChangeState={onStateChange}
+        onError={(e) => console.log(e)}
       />
-      <View style={styles.controlsContainer}>
-        <Button
-          title={isPlaying ? "Pause" : "Play"}
-          onPress={() => {
-            if (isPlaying) {
-              player.pause();
-            } else {
-              player.play();
-            }
-            setIsPlaying(!isPlaying);
-          }}
-        />
-      </View>
+      {/* <Button title={playing ? "pause" : "play"} onPress={togglePlaying} /> */}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 50,
-  },
-  video: {
-    width: 350,
-    height: 275,
-  },
-  controlsContainer: {
-    padding: 10,
-  },
-});
