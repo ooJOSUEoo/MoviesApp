@@ -23,8 +23,8 @@ export default function About() {
         </Text>
 
         <Text className="text-white text-white/90 mb-4">
-          Esta es una aplicación para obtener distanta variedad de peliculas
-          traidas de la API de:{" "}
+          Esta es una aplicación para obtener las distintas variedades de
+          peliculas traidas de la API de:{" "}
           <Link
             className="font-bold underline"
             href="https://www.themoviedb.org/"

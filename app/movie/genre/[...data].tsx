@@ -7,7 +7,7 @@ import { AnimatedMovieCard } from "@/components/movieCard";
 import React from "react";
 
 export default function Genres() {
-  const { data,name } = useLocalSearchParams<{
+  const { data, name } = useLocalSearchParams<{
     data: string[];
     name: string;
   }>();
@@ -17,7 +17,7 @@ export default function Genres() {
 
   useEffect(() => {
     if (id) {
-        getMoviesGenres(id as any, page).then((data) =>
+      getMoviesGenres(id as any, page).then((data) =>
         setMoviesGenres([...moviesGenres, ...data]),
       );
     }
