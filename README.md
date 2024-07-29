@@ -3,7 +3,7 @@
 App to search for movies and see their details, from the [TMDB](https://developer.themoviedb.org/).
 
 ``
-Rename the file .env.example to .env and add your API key from TMDB.
+Rename the file env.example.js to env.js and add your info from TMDB.
 ``
 ````
 EXPO_PUBLIC_API_KEY="YOUR_API_KEY"

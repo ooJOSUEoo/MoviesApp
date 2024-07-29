@@ -4,7 +4,7 @@
     "slug": "moviesApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/movie-logo.png",
     "userInterfaceStyle": "light",
     "scheme": "moviesApp",
     "splash": {

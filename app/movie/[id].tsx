@@ -1,8 +1,10 @@
 import {
   ActivityIndicator,
+  Clipboard,
   FlatList,
   ScrollView,
   Text,
+  ToastAndroid,
   View,
 } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
@@ -15,7 +17,6 @@ import {
   getMovieCast,
   getMovieVideos,
   getSimilarMovies,
-  getVideoYTURL,
 } from "@/lib/themoviedb";
 import { Score } from "../../components/Score";
 import { FA, MI } from "@/components/Icons";
@@ -23,7 +24,7 @@ import { AnimatedCastCard } from "@/components/castCard";
 import ImageZoom from "@/components/ImageZoom";
 import React from "react";
 import { AnimatedMovieCard } from "@/components/movieCard";
-import {VideoYT} from "@/components/Video";
+import { VideoYT } from "@/components/Video";
 
 export default function Detail() {
   const { id }: any = useLocalSearchParams();
@@ -75,7 +76,13 @@ export default function Detail() {
                 h={150}
               />
               <Score cN="" score={movieInfo.vote_average} maxScore={10} />
-              <Text className="text-white/70 text-left mb-3 text-base font-bold">
+              <Text
+                onLongPress={() => {
+                  Clipboard.setString(movieInfo.title);
+                  ToastAndroid.show("Copiado", ToastAndroid.SHORT);
+                }}
+                className="text-white/70 text-left mb-3 text-base font-bold"
+              >
                 {movieInfo.title}{" "}
                 {movieInfo.adult && <MI name="18-up-rating" color="red" />}
               </Text>
@@ -93,7 +100,13 @@ export default function Detail() {
                   </Link>
                 ))}
               </View>
-              <Text className="text-white/70 text-justify mb-3 px-3 text-base">
+              <Text
+                onLongPress={() => {
+                  Clipboard.setString(movieInfo.overview);
+                  ToastAndroid.show("Copiado", ToastAndroid.SHORT);
+                }}
+                className="text-white/70 text-justify mb-3 px-3 text-base"
+              >
                 {movieInfo.overview}
               </Text>
               <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
@@ -109,8 +122,8 @@ export default function Detail() {
                   data={movieVideos}
                   keyExtractor={(video: any, index) => index.toString()}
                   renderItem={({ item, index }) => (
-                    <View className="border-[1px] border-r-gray-500">
-                      <VideoYT key={item.key ?? ""} />
+                    <View className="border-[1px] border-r-gray-500 px-1">
+                      <VideoYT keyYT={item.key ?? ""} />
                     </View>
                   )}
                 />

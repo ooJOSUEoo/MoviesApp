@@ -1,8 +1,9 @@
 import axios from "axios";
+import { ENV } from "@/env";
 
 const infoAPI = {
-  url: "https://api.themoviedb.org",
-  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  url: ENV.URL,
+  apiKey: ENV.API_KEY,
   lang: "es-ES",
 };
 
@@ -97,7 +98,7 @@ export async function getSimilarMovies(id: number) {
   }
 }
 
-export async function getMoviesGenres(id: number,page: number = 1) {
+export async function getMoviesGenres(id: number, page: number = 1) {
   try {
     if (page < 1) page = 1;
     const resp = await axios.get(
