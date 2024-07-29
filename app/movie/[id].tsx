@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { Screen } from "../../components/Screen";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
@@ -84,12 +84,13 @@ export default function Detail() {
               </Text>
               <View className="mb-3 flex-1 flex-row flex-wrap justify-around gap-2">
                 {movieInfo.genres.map((genre: any, index: number) => (
-                  <Text
+                  <Link
                     key={index}
+                    href={`/movie/genre/${genre.id}?name=${genre.name}`}
                     className=" text-white/70 bg-gray-500 rounded px-2"
                   >
                     {genre.name}
-                  </Text>
+                  </Link>
                 ))}
               </View>
               <Text className="text-white/70 text-justify mb-3 px-3 text-base">

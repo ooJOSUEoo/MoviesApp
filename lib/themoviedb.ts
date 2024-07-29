@@ -97,6 +97,19 @@ export async function getSimilarMovies(id: number) {
   }
 }
 
+export async function getMoviesGenres(id: number,page: number = 1) {
+  try {
+    if (page < 1) page = 1;
+    const resp = await axios.get(
+      `${infoAPI.url}/3/discover/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&with_genres=${id}&page=${page}`,
+    );
+    return resp.data.results;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 export async function getMovieVideos(id: number) {
   try {
     const resp = await axios.get(
