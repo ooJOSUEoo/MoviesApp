@@ -1,14 +1,40 @@
 import { Link } from "expo-router";
-import { Pressable, ScrollView, Text } from "react-native";
-import { FA, FA6 } from "../../components/Icons";
+import { Pressable, ScrollView, Text, View } from "react-native";
+import { FA6 } from "../../components/Icons";
 
 import { styled } from "nativewind";
 import { Screen } from "../../components/Screen";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  AppOpenAd,
+  TestIds,
+  AdEventType,
+  BannerAd,
+  BannerAdSize,
+  InterstitialAd,
+} from "react-native-google-mobile-ads";
+import { env } from "./../../env/env";
+
+const adUnitId = __DEV__ ? TestIds.BANNER : env.androidAppId;
+const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
 
 const StyledPressable = styled(Pressable);
-
 export default function About() {
+  const [loaded, setLoaded] = useState(false);
+  const appOpenAd = AppOpenAd.createForAdRequest(adUnitId, {
+    keywords: ["fashion", "clothing"],
+  });
+  useEffect(() => {
+    const unsubscribe = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        setLoaded(true);
+      },
+    );
+
+    interstitial.load();
+    return unsubscribe;
+  }, []);
   return (
     <Screen>
       <ScrollView>
@@ -48,6 +74,13 @@ export default function About() {
           </Link>
         </Text>
       </ScrollView>
+      <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{
+          requestNonPersonalizedAdsOnly: true,
+        }}
+      />
     </Screen>
   );
 }

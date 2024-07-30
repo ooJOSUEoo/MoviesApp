@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "moviesApp",
+    "name": "Movies App",
+    "description": "App to search for movies and see their details, from the [TMDB](https://developer.themoviedb.org/).",
     "slug": "moviesApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/movie-logo.png",
+    "icon": "./assets/icon1.png",
     "userInterfaceStyle": "light",
-    "scheme": "moviesApp",
+    "scheme": "moviesapp",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,16 +22,31 @@
         "ACCESS_NETWORK_STATE"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon1.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.josuema2002.moviesApp"
+      "package": "com.oojosueoo.moviesApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-8335959661036674~7731219859",
+          "iosAppId": "ca-app-pub-8335959661036674~7731219859"
+        }
+      ],
+      ["expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true,
+            "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
+          } 
+        }
+      ]
     ],
     "extra": {
       "router": {

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { ENV } from "@/env";
+import { env } from "../env/env";
 
 const infoAPI = {
-  url: ENV.URL,
-  apiKey: ENV.API_KEY,
+  url: env.url,
+  apiKey: env.apikey,
   lang: "es-ES",
 };
 

@@ -5,9 +5,18 @@ App to search for movies and see their details, from the [TMDB](https://develope
 ``
 Rename the file env.example.js to env.js and add your info from TMDB.
 ``
-````
-EXPO_PUBLIC_API_KEY="YOUR_API_KEY"
-````
+
+Route to the env file:
+```
+proyect
+│   app/
+│   assets/
+│   components/
+│   env/
+│   |   env.example.js <-FILE
+│   package.json
+│   README.md
+```
 
 ###
 
@@ -26,7 +35,10 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
     npx expo start
    ```
+   It is recommended to use `development build` and ``npx expo run android``
 
+   To generate build you must remove the env.js from gitignore, then put it back
+##
 In the output, you'll find options to open the app in a
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)

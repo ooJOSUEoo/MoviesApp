@@ -1,8 +1,13 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 .env
+#////////
+
 env.js
+
+#////////
 *.apk
+android/*
 
 # dependencies
 node_modules/
