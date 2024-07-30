@@ -1,10 +1,13 @@
 import axios from "axios";
 import { env } from "../env/env";
+import { Platform } from "react-native";
+import * as Localization from "expo-localization";
+import { storage } from "./storage";
 
 const infoAPI = {
   url: env.url,
   apiKey: env.apikey,
-  lang: "es-ES",
+  lang: Localization.getLocales()[0].languageTag || "es-ES",
 };
 
 export function getImageURL(posterPath: string) {
@@ -123,11 +126,26 @@ export async function getMovieVideos(id: number) {
   }
 }
 
-export async function getSearchMovie(query: string, page: number = 1) {
+export async function getMovieReviews(id: number, page: number = 1) {
   try {
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=true&query=${query}&page=${page}`,
+      `${infoAPI.url}/3/movie/${id}/reviews?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+    );
+    return resp.data.results;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function getSearchMovie(query: string, page: number = 1) {
+  try {
+    const app: any = storage.getState();
+    const { isAdult } = app.ui;
+    if (page < 1) page = 1;
+    const resp = await axios.get(
+      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=${isAdult}&query=${query}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -162,8 +180,10 @@ export async function getCastDetails(id: number) {
 
 export async function getMoviesFromCast(id: number) {
   try {
+    const app: any = storage.getState();
+    const { isAdult } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/person/${id}/movie_credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/person/${id}/movie_credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=${isAdult}`,
     );
     return resp.data.cast;
   } catch (error) {

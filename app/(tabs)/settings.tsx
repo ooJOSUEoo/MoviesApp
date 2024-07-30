@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { FA6 } from "../../components/Icons";
 
 import { styled } from "nativewind";
@@ -13,13 +13,17 @@ import {
   BannerAdSize,
   InterstitialAd,
 } from "react-native-google-mobile-ads";
-import { env } from "./../../env/env";
+import { env } from "../../env/env";
+import { TC } from "@/components/translate";
+import { storage } from "@/lib/storage";
 
 const adUnitId = __DEV__ ? TestIds.BANNER : env.androidAppId;
 const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
 
 const StyledPressable = styled(Pressable);
-export default function About() {
+export default function Settings() {
+  const isAdult = storage((s: any) => s.ui.isAdult);
+  const setIsAdult = storage((s: any) => s.setIsAdult);
   const [loaded, setLoaded] = useState(false);
   const appOpenAd = AppOpenAd.createForAdRequest(adUnitId, {
     keywords: ["fashion", "clothing"],
@@ -38,19 +42,32 @@ export default function About() {
   return (
     <Screen>
       <ScrollView>
-        {/* <Link asChild href="/">
-          <StyledPressable className={`active:opacity-80`}>
-            <FA name="home" />
-          </StyledPressable>
-        </Link> */}
+        <Text className={"text-white font-bold mb-8 text-2xl"}>
+          <TC>Configuración</TC>
+        </Text>
+        <View>
+          <Text className="text-white text-white/90 mb-4">
+            <TC>Si es mayor de edad puede seleccionar:</TC>
+          </Text>
+          <Switch
+            className="w-20"
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isAdult ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(e) => setIsAdult(e)}
+            value={isAdult}
+          />
+        </View>
 
         <Text className={"text-white font-bold mb-8 text-2xl"}>
-          Sobre la aplicación
+          <TC>Sobre la aplicación</TC>
         </Text>
 
         <Text className="text-white text-white/90 mb-4">
-          Esta es una aplicación para obtener las distintas variedades de
-          peliculas traidas de la API de:{" "}
+          <TC>
+            Esta es una aplicación para obtener las distintas variedades de
+            peliculas traidas de la API de:
+          </TC>{" "}
           <Link
             className="font-bold underline"
             href="https://www.themoviedb.org/"
@@ -61,7 +78,14 @@ export default function About() {
         </Text>
 
         <Text className="text-white text-white/90 mb-4">
-          Creada por:
+          <TC>
+            Nota: Esta app no permite la descarga y visualización de peliculas
+            por derechos legales.
+          </TC>
+        </Text>
+
+        <Text className="text-white text-white/90 mb-4">
+          <TC>Creada por:</TC>
           <Link
             className="underline"
             asChild

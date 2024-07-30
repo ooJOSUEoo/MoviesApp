@@ -30,7 +30,7 @@ export function Main() {
           className="px-3 pb-3"
           numColumns={3}
           data={nowMovies}
-          keyExtractor={(movie: any) => movie.id}
+          keyExtractor={(movie: any, index) => index.toString()}
           renderItem={({ item, index }) => (
             <AnimatedMovieCard movie={item} index={index} />
           )}

@@ -39,14 +39,16 @@
           "iosAppId": "ca-app-pub-8335959661036674~7731219859"
         }
       ],
-      ["expo-build-properties",
+      [
+        "expo-build-properties",
         {
           "android": {
             "enableProguardInReleaseBuilds": true,
             "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
-          } 
+          }
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "router": {

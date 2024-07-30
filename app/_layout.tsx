@@ -15,13 +15,19 @@ import { getSearchMovie } from "@/lib/themoviedb";
 import { AnimatedSearchCard } from "@/components/searchCard";
 import * as Network from "expo-network";
 import React from "react";
+import { storage } from "@/lib/storage";
+import { translateText } from "@/helpers/translateText";
 
 export default function Layout() {
   const [isConnected, setIsConnected] = useState<any>(null);
   const [isSearch, setIsSearch] = useState(false);
   const [search, setSearch] = useState("");
   const [searchMovies, setSearchMovies] = useState<any>([]);
+  const isAdult = storage((s: any) => s.ui.isAdult);
+  const setIsAdult = storage((s: any) => s.setIsAdult);
 
+  const message =
+    "Actualmente tienes 18 años o más?, es posible que esta app muestre contenido adulto.";
   useEffect(() => {
     const checkNetworkStatus = async () => {
       const networkState = await Network.getNetworkStateAsync();
@@ -50,6 +56,27 @@ export default function Layout() {
       }
     });
   }, []);
+  useEffect(() => {
+    const showAlert = async () => {
+      const msg = await translateText(message);
+      isAdult === null &&
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        Alert.alert("+18", msg, [
+          {
+            text: "No",
+            style: "cancel",
+            onPress: () => setIsAdult(false),
+          },
+          {
+            text: "Si",
+            style: "default",
+            onPress: () => setIsAdult(true),
+          },
+        ]);
+    };
+    showAlert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdult]);
 
   return (
     <View className="relative flex-1 bg-black">
@@ -64,7 +91,7 @@ export default function Layout() {
               {!isSearch && (
                 <>
                   <FA6 name="film" color="black" />
-                  <Text className="text-black">Movies App</Text>
+                  <Text className="text-black">Movie App</Text>
                 </>
               )}
             </View>
@@ -79,9 +106,10 @@ export default function Layout() {
                       autoFocus
                       className="flex-1 border border-gray-400 rounded-full bg-gray-100 p-2 text-gray-600"
                       onChangeText={(text) => {
-                        setSearch(text);
-                        if (text.length > 2) {
-                          getSearchMovie(text).then(setSearchMovies);
+                        const textTrim = text.trim();
+                        setSearch(textTrim);
+                        if (textTrim.length > 2) {
+                          getSearchMovie(textTrim).then(setSearchMovies);
                         }
                       }}
                       placeholder="Star wars"
