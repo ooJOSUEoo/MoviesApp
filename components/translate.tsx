@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import translate from "translate"; // Asegúrate de que esta importación sea correcta
 import * as Localization from "expo-localization";
+import { storage } from "@/lib/storage";
 
 interface TranslateContentProps {
   children: string;
@@ -12,7 +13,8 @@ export const TC: React.FC<TranslateContentProps> = ({
   from = "es",
 }) => {
   const [result, setResult] = useState<string>("");
-  const lang = Localization.getLocales()[0].languageCode || "es";
+  const app: any = storage.getState();
+  const lang = app.ui.lang.split("-")[0];
 
   translate.engine = "google";
   useEffect(() => {

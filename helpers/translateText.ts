@@ -1,10 +1,10 @@
-import { storage as appStore } from "@/lib/storage";
+import { storage } from "@/lib/storage";
 import { useState } from "react";
 import translate from "translate";
-import * as Localization from "expo-localization";
 
 export async function translateText(text: string, from = "es") {
-  const lang = Localization.getLocales()[0].languageCode || "es";
+  const app: any = storage.getState();
+  const lang = app.ui.lang.split("-")[0];
 
   translate.engine = "google";
   const resp = await translate(text, { from: from, to: lang });
@@ -24,7 +24,9 @@ export async function translateText(text: string, from = "es") {
 
 export function useTranslateText(text: string, from = "es") {
   const [resp, setResp] = useState("");
-  const lang = Localization.getLocales()[0].languageCode || "en";
+  const app: any = storage.getState();
+  const lang = app.ui.lang.split("-")[0];
+
   translate.engine = "google";
   translate(text, { from: from, to: lang }).then((res) => {
     setResp(res);
