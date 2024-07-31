@@ -8,7 +8,7 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import { Screen } from "../../components/Screen";
 import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   getCastDetails,
   getImageURL,
@@ -20,6 +20,7 @@ import ImageZoom from "@/components/ImageZoom";
 import React from "react";
 
 export default function Detail() {
+  const scrollViewRef = useRef(null);
   const { id } = useLocalSearchParams();
   const [castInfo, setCastInfo] = useState<any>(null);
   const [moviesCast, setMoviesCast] = useState<any>([]);
@@ -50,13 +51,14 @@ export default function Detail() {
         {castInfo === null ? (
           <ActivityIndicator color={"#fff"} size={"large"} />
         ) : (
-          <ScrollView>
+          <ScrollView ref={scrollViewRef}>
             <View className="relative justify-center items-center text-center">
               <ImageZoom
                 cN="rounded"
                 url={getImageURL(castInfo.profile_path)}
                 w={100}
                 h={150}
+                scrollViewRef={scrollViewRef}
               />
               <Text className="text-white/70 text-left mb-3 text-base font-bold">
                 {castInfo.name}{" "}

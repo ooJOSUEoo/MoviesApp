@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage, StateStorage } from "zustand/middleware";
 import { get, set, del } from "idb-keyval"; // can use anything: IndexedDB, Ionic Storage, etc.
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Localization from "expo-localization";
 
 // Custom storage object
 const s: StateStorage = {
@@ -27,12 +28,19 @@ export const storage = create(
     (set, get) => ({
       ui: {
         isAdult: null,
+        lang: Localization.getLocales()[0].languageTag || "es-ES",
       },
 
       setIsAdult: (value: boolean) => {
         set((state: any) => ({
           ...state,
           ui: { ...state.ui, isAdult: value },
+        }));
+      },
+      setLang: (value: string) => {
+        set((state: any) => ({
+          ...state,
+          ui: { ...state.ui, lang: value },
         }));
       },
     }),

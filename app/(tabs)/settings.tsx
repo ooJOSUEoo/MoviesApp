@@ -1,5 +1,13 @@
 import { Link } from "expo-router";
-import { Pressable, ScrollView, Switch, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  Switch,
+  Text,
+  View,
+  PermissionsAndroid,
+  Platform,
+} from "react-native";
 import { FA6 } from "../../components/Icons";
 
 import { styled } from "nativewind";
@@ -57,6 +65,24 @@ export default function Settings() {
             onValueChange={(e) => setIsAdult(e)}
             value={isAdult}
           />
+          {/* {Platform.OS === "android" && (
+            <>
+              <Text className="text-white text-white/90 mb-4">
+                <TC>Si acepta que la aplicación acceda a su multimedia:</TC>
+              </Text>
+              <Switch
+                className="w-20"
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isAdult ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                // onValueChange={}
+                value={PermissionsAndroid.RESULTS.GRANTED === "granted"}
+              />
+            </>
+          )} */}
+          <Text className="text-white text-white/90 mb-4">
+            <TC>Idioma:</TC>
+          </Text>
         </View>
 
         <Text className={"text-white font-bold mb-8 text-2xl"}>

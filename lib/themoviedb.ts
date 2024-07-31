@@ -4,10 +4,12 @@ import { Platform } from "react-native";
 import * as Localization from "expo-localization";
 import { storage } from "./storage";
 
+const app: any = storage.getState();
+const { lang } = app.ui;
 const infoAPI = {
   url: env.url,
   apiKey: env.apikey,
-  lang: Localization.getLocales()[0].languageTag || "es-ES",
+  lang: lang,
 };
 
 export function getImageURL(posterPath: string) {

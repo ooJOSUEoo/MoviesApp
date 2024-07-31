@@ -11,7 +11,7 @@ import {
 import { Link, useLocalSearchParams } from "expo-router";
 import { Screen } from "../../components/Screen";
 import { Stack } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   getMovieDetails,
   getImageURL,
@@ -31,6 +31,7 @@ import { TC } from "@/components/translate";
 import { AnimatedReviewCard } from "@/components/reviewCard";
 
 export default function Detail() {
+  const scrollViewRef = useRef(null);
   const { id }: any = useLocalSearchParams();
   const [movieInfo, setMovieInfo] = useState<any>(null);
   const [movieCast, setMovieCast] = useState<any>(null);
@@ -72,21 +73,30 @@ export default function Detail() {
         {movieInfo === null ? (
           <ActivityIndicator color={"#fff"} size={"large"} />
         ) : (
-          <ScrollView>
+          <ScrollView ref={scrollViewRef}>
             <View className="relative justify-center items-center text-center">
               <ImageZoom
                 cN="mb-4 rounded"
                 url={getImageURL(movieInfo.backdrop_path)}
                 w={`${100}%`}
                 h={180}
+                scrollViewRef={scrollViewRef}
               />
               <ImageZoom
                 cN="rounded -mt-20"
                 url={getImageURL(movieInfo.poster_path)}
                 w={100}
                 h={150}
+                scrollViewRef={scrollViewRef}
               />
-              <Score cN="" score={movieInfo.vote_average} maxScore={10} />
+              <View className="flex-row items-center gap-1">
+                <Score cN="" score={movieInfo.vote_average} maxScore={10} />
+                <View className="bg-orange-600 rounded px-1">
+                  <Text className="text-white">
+                    {movieInfo.runtime.toString()} min
+                  </Text>
+                </View>
+              </View>
               <Text
                 onLongPress={() => {
                   Clipboard.setString(movieInfo.title);
@@ -98,7 +108,7 @@ export default function Detail() {
                 {movieInfo.adult && <MI name="18-up-rating" color="red" />}
               </Text>
               <Text className="text-white/70 text-left mb-3 text-base">
-                <FA name="calendar" /> {movieInfo.release_date}
+                <FA name="calendar" /> {movieInfo.release_date}{" "}
               </Text>
               <View className="mb-3 flex-1 flex-row flex-wrap justify-around gap-2">
                 {movieInfo.genres.map((genre: any, index: number) => (
