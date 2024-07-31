@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Clipboard,
   FlatList,
+  ScrollView,
   Text,
   ToastAndroid,
   View,
@@ -35,7 +36,7 @@ export default function Detail() {
   const [movieCast, setMovieCast] = useState<any>(null);
   const [movieVideos, setMovieVideos] = useState<any>(null);
   const [movieSimilars, setMovieSimilars] = useState<any>(null);
-  const [movieReviews, setMovieReviews] = useState<any>([]);
+  const [movieReviews, setMovieReviews] = useState<any>(null);
   const [pageReviews, setPageReviews] = useState(1);
 
   useEffect(() => {
@@ -52,116 +53,9 @@ export default function Detail() {
   }, [id, movieInfo]);
   useEffect(() => {
     if (movieInfo && id) {
-      getMovieReviews(id, pageReviews).then((newReviews) => {
-        setMovieReviews((prevReviews: any) => [...prevReviews, ...newReviews]);
-      });
+      getMovieReviews(id, pageReviews).then(setMovieReviews);
     }
   }, [id, movieInfo, pageReviews]);
-
-  const renderHeader = () => (
-    <View className="flex-1 items-center">
-      <ImageZoom
-        cN="mb-4 rounded"
-        url={getImageURL(movieInfo.backdrop_path)}
-        w={`${100}%`}
-        h={180}
-      />
-      <ImageZoom
-        cN="rounded -mt-12"
-        url={getImageURL(movieInfo.poster_path)}
-        w={100}
-        h={150}
-      />
-      <Score cN="" score={movieInfo.vote_average} maxScore={10} />
-      <Text
-        onLongPress={() => {
-          Clipboard.setString(movieInfo.title);
-          ToastAndroid.show("Copiado", ToastAndroid.SHORT);
-        }}
-        className="text-white/70 text-left mb-3 text-base font-bold"
-      >
-        {movieInfo.title}{" "}
-        {movieInfo.adult && <MI name="18-up-rating" color="red" />}
-      </Text>
-      <Text className="text-white/70 text-left mb-3 text-base">
-        <FA name="calendar" /> {movieInfo.release_date}
-      </Text>
-      <View className="mb-3 flex-1 flex-row flex-wrap justify-around gap-2">
-        {movieInfo.genres.map((genre: any, index: number) => (
-          <Link
-            key={index}
-            href={`/movie/genre/${genre.id}?name=${genre.name}`}
-            className=" text-white/70 bg-gray-500 rounded px-2"
-          >
-            {genre.name}
-          </Link>
-        ))}
-      </View>
-      <Text
-        onLongPress={() => {
-          Clipboard.setString(movieInfo.overview);
-          ToastAndroid.show("Copiado", ToastAndroid.SHORT);
-        }}
-        className="text-white/70 text-justify mb-3 px-3 text-base"
-      >
-        {movieInfo.overview}
-      </Text>
-      <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
-        <TC>Videos</TC>
-      </Text>
-      {movieVideos === null ? (
-        <ActivityIndicator color={"#fff"} size={"large"} />
-      ) : (
-        <FlatList
-          horizontal
-          className=""
-          data={movieVideos}
-          keyExtractor={(video: any, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <View className="border-[1px] border-r-gray-500 px-1">
-              <VideoYT keyYT={item.key ?? ""} />
-            </View>
-          )}
-        />
-      )}
-      <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
-        <TC>Reparto</TC>
-      </Text>
-      {movieCast === null ? (
-        <ActivityIndicator color={"#fff"} size={"large"} />
-      ) : (
-        <FlatList
-          horizontal
-          className=""
-          data={movieCast}
-          keyExtractor={(cast: any, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <AnimatedCastCard cast={item} index={index} />
-          )}
-        />
-      )}
-      <View className="w-full h-[1px] bg-gray-500"></View>
-      <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
-        <TC>Similares</TC>
-      </Text>
-      {movieSimilars === null ? (
-        <ActivityIndicator color={"#fff"} size={"large"} />
-      ) : (
-        <FlatList
-          horizontal
-          className=""
-          data={movieSimilars}
-          keyExtractor={(movie: any, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <AnimatedMovieCard movie={item} index={index} />
-          )}
-        />
-      )}
-      <Text className="text-white/70 text-left mb-5 w-full text-base font-bold">
-        <TC>Reseñas</TC>
-      </Text>
-    </View>
-  );
 
   return (
     <Screen>
@@ -174,24 +68,138 @@ export default function Detail() {
           headerRight: () => null,
         }}
       />
-      {movieInfo === null ? (
-        <ActivityIndicator color={"#fff"} size={"large"} />
-      ) : (
-        <FlatList
-          data={movieReviews}
-          ListHeaderComponent={renderHeader}
-          keyExtractor={(review: any, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <AnimatedReviewCard review={item} index={index} />
-          )}
-          onEndReached={() => {
-            setPageReviews(pageReviews + 1);
-          }}
-          ListFooterComponent={
-            <View className="w-full h-10 bg-transparent"></View>
-          }
-        />
-      )}
+      <View>
+        {movieInfo === null ? (
+          <ActivityIndicator color={"#fff"} size={"large"} />
+        ) : (
+          <ScrollView>
+            <View className="relative justify-center items-center text-center">
+              <ImageZoom
+                cN="mb-4 rounded"
+                url={getImageURL(movieInfo.backdrop_path)}
+                w={`${100}%`}
+                h={180}
+              />
+              <ImageZoom
+                cN="rounded -mt-20"
+                url={getImageURL(movieInfo.poster_path)}
+                w={100}
+                h={150}
+              />
+              <Score cN="" score={movieInfo.vote_average} maxScore={10} />
+              <Text
+                onLongPress={() => {
+                  Clipboard.setString(movieInfo.title);
+                  ToastAndroid.show("Copiado", ToastAndroid.SHORT);
+                }}
+                className="text-white/70 text-left mb-3 text-base font-bold"
+              >
+                {movieInfo.title}{" "}
+                {movieInfo.adult && <MI name="18-up-rating" color="red" />}
+              </Text>
+              <Text className="text-white/70 text-left mb-3 text-base">
+                <FA name="calendar" /> {movieInfo.release_date}
+              </Text>
+              <View className="mb-3 flex-1 flex-row flex-wrap justify-around gap-2">
+                {movieInfo.genres.map((genre: any, index: number) => (
+                  <Link
+                    key={index}
+                    href={`/movie/genre/${genre.id}?name=${genre.name}`}
+                    className=" text-white/70 bg-gray-500 rounded px-2"
+                  >
+                    {genre.name}
+                  </Link>
+                ))}
+              </View>
+              <Text
+                onLongPress={() => {
+                  Clipboard.setString(movieInfo.overview);
+                  ToastAndroid.show("Copiado", ToastAndroid.SHORT);
+                }}
+                className="text-white/70 text-justify mb-3 px-3 text-base"
+              >
+                {movieInfo.overview}
+              </Text>
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                <TC>Videos</TC>
+              </Text>
+              {/* <VideoYT key="" /> */}
+              {movieVideos === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                <FlatList
+                  horizontal
+                  className=""
+                  data={movieVideos}
+                  keyExtractor={(video: any, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <View className="border-[1px] border-r-gray-500 px-1">
+                      <VideoYT keyYT={item.key ?? ""} />
+                    </View>
+                  )}
+                />
+              )}
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                <TC>Reparto</TC>
+              </Text>
+              {movieCast === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                <FlatList
+                  horizontal
+                  className=""
+                  data={movieCast}
+                  keyExtractor={(cast: any, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <AnimatedCastCard cast={item} index={index} />
+                  )}
+                />
+              )}
+              <View className="w-full h-[1px] bg-gray-500"></View>
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                <TC>Similares</TC>
+              </Text>
+              {movieSimilars === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                <FlatList
+                  horizontal
+                  className=""
+                  data={movieSimilars}
+                  keyExtractor={(movie: any, index) => index.toString()}
+                  renderItem={({ item, index }) => (
+                    <AnimatedMovieCard movie={item} index={index} />
+                  )}
+                />
+              )}
+              <Text className="text-white/70 text-left mb-3 w-full text-base font-bold">
+                <TC>Reseñas</TC>
+              </Text>
+              {movieReviews === null ? (
+                <ActivityIndicator color={"#fff"} size={"large"} />
+              ) : (
+                // <FlatList
+                //   onEndReached={() => {
+                //     setPageReviews(pageReviews + 1);
+                //   }}
+                //   className=""
+                //   data={movieReviews}
+                //   keyExtractor={(movie: any, index) => index.toString()}
+                //   renderItem={({ item, index }) => (
+                //     <AnimatedReviewCard review={item} index={index} />
+                //   )}
+                // />
+                <View className="w-full flex-1">
+                  {movieReviews.map((review: any, index: number) => (
+                    <AnimatedReviewCard review={review} index={index} />
+                  ))}
+                </View>
+              )}
+              <View className="w-full h-10 bg-transparent"></View>
+            </View>
+          </ScrollView>
+        )}
+      </View>
     </Screen>
   );
 }
