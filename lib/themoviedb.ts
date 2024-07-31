@@ -4,12 +4,9 @@ import { Platform } from "react-native";
 import * as Localization from "expo-localization";
 import { storage } from "./storage";
 
-const app: any = storage.getState();
-const { lang } = app.ui;
 const infoAPI = {
   url: env.url,
   apiKey: env.apikey,
-  lang: lang,
 };
 
 export function getImageURL(posterPath: string) {
@@ -28,9 +25,11 @@ export function getVideoYTURL(key: string) {
 
 export async function getNowPlaying(page: number = 1) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/now_playing?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+      `${infoAPI.url}/3/movie/now_playing?api_key=${infoAPI.apiKey}&language=${lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -41,9 +40,11 @@ export async function getNowPlaying(page: number = 1) {
 
 export async function getPopularMovies(page: number = 1) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/popular?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+      `${infoAPI.url}/3/movie/popular?api_key=${infoAPI.apiKey}&language=${lang}&page=${page}`,
     );
 
     return resp.data.results;
@@ -55,9 +56,11 @@ export async function getPopularMovies(page: number = 1) {
 
 export async function getTopRatedMovies(page: number = 1) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/top_rated?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+      `${infoAPI.url}/3/movie/top_rated?api_key=${infoAPI.apiKey}&language=${lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -68,9 +71,11 @@ export async function getTopRatedMovies(page: number = 1) {
 
 export async function getUpcomingMovies(page: number = 1) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/upcoming?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+      `${infoAPI.url}/3/movie/upcoming?api_key=${infoAPI.apiKey}&language=${lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -81,8 +86,10 @@ export async function getUpcomingMovies(page: number = 1) {
 
 export async function getMovieDetails(id: number) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/${id}?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/${id}?api_key=${infoAPI.apiKey}&language=${lang}`,
     );
     return resp.data;
   } catch (error) {
@@ -93,8 +100,10 @@ export async function getMovieDetails(id: number) {
 
 export async function getSimilarMovies(id: number) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/${id}/similar?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/${id}/similar?api_key=${infoAPI.apiKey}&language=${lang}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -105,9 +114,11 @@ export async function getSimilarMovies(id: number) {
 
 export async function getMoviesGenres(id: number, page: number = 1) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/discover/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&with_genres=${id}&page=${page}`,
+      `${infoAPI.url}/3/discover/movie?api_key=${infoAPI.apiKey}&language=${lang}&with_genres=${id}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -118,8 +129,10 @@ export async function getMoviesGenres(id: number, page: number = 1) {
 
 export async function getMovieVideos(id: number) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/${id}/videos?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/${id}/videos?api_key=${infoAPI.apiKey}&language=${lang}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -130,9 +143,11 @@ export async function getMovieVideos(id: number) {
 
 export async function getMovieReviews(id: number, page: number = 1) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/${id}/reviews?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&page=${page}`,
+      `${infoAPI.url}/3/movie/${id}/reviews?api_key=${infoAPI.apiKey}&language=${lang}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -144,10 +159,10 @@ export async function getMovieReviews(id: number, page: number = 1) {
 export async function getSearchMovie(query: string, page: number = 1) {
   try {
     const app: any = storage.getState();
-    const { isAdult } = app.ui;
+    const { isAdult, lang } = app.ui;
     if (page < 1) page = 1;
     const resp = await axios.get(
-      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=${isAdult}&query=${query}&page=${page}`,
+      `${infoAPI.url}/3/search/movie?api_key=${infoAPI.apiKey}&language=${lang}&include_adult=${isAdult}&query=${query}&page=${page}`,
     );
     return resp.data.results;
   } catch (error) {
@@ -158,8 +173,10 @@ export async function getSearchMovie(query: string, page: number = 1) {
 
 export async function getMovieCast(id: number) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/movie/${id}/credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/movie/${id}/credits?api_key=${infoAPI.apiKey}&language=${lang}`,
     );
     return resp.data.cast;
   } catch (error) {
@@ -170,8 +187,10 @@ export async function getMovieCast(id: number) {
 
 export async function getCastDetails(id: number) {
   try {
+    const app: any = storage.getState();
+    const { lang } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/person/${id}?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}`,
+      `${infoAPI.url}/3/person/${id}?api_key=${infoAPI.apiKey}&language=${lang}`,
     );
     return resp.data;
   } catch (error) {
@@ -183,9 +202,9 @@ export async function getCastDetails(id: number) {
 export async function getMoviesFromCast(id: number) {
   try {
     const app: any = storage.getState();
-    const { isAdult } = app.ui;
+    const { isAdult, lang } = app.ui;
     const resp = await axios.get(
-      `${infoAPI.url}/3/person/${id}/movie_credits?api_key=${infoAPI.apiKey}&language=${infoAPI.lang}&include_adult=${isAdult}`,
+      `${infoAPI.url}/3/person/${id}/movie_credits?api_key=${infoAPI.apiKey}&language=${lang}&include_adult=${isAdult}`,
     );
     return resp.data.cast;
   } catch (error) {

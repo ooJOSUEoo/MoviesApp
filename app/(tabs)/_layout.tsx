@@ -45,7 +45,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: useTranslateText("Configuración"),
           tabBarIcon: ({ color }) => <FA name="cog" color={color} />,
         }}
       />

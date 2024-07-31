@@ -37,7 +37,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```
    It is recommended to use `development build` and ``npx expo run android``
 
-   To generate build you must remove the env.js from gitignore, then put it back
+   To generate build with eas you must remove the env.js from gitignore, then put it back
 ##
 In the output, you'll find options to open the app in a
 

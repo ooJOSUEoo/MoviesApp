@@ -59,7 +59,7 @@ export default function Settings() {
     setLang(langValue);
     const msg = async () => {
       ToastAndroid.show(
-        await translateText("Se recomienda cerrar y reabrir la app."),
+        await translateText("Idioma cambiado."),
         ToastAndroid.SHORT,
       );
     };
@@ -112,7 +112,7 @@ export default function Settings() {
               { label: "Deutsch", value: "de-DE" },
               { label: "日本語", value: "ja-JP" },
               { label: "हिन्दी", value: "hi-IN" },
-              { label: "Português", value: "pt-BR" },
+              { label: "Portuguese", value: "pt-PT" },
               { label: "Русский", value: "ru-RU" },
               { label: "中文", value: "zh-CN" },
               { label: "한국어", value: "ko-KR" },
@@ -122,7 +122,6 @@ export default function Settings() {
               { label: "Norsk", value: "nb-NO" },
               { label: "Norsk bokmål", value: "nb-NO" },
               { label: "Türkçe", value: "tr-TR" },
-              { label: "Portuguese", value: "pt-PT" },
             ]}
             setOpen={setOpen}
             setValue={setLangValue}
