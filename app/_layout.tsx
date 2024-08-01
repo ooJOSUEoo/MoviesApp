@@ -1,7 +1,6 @@
 import { router, Stack } from "expo-router";
 import {
   Alert,
-  BackHandler,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -25,36 +24,62 @@ export default function Layout() {
   const [searchMovies, setSearchMovies] = useState<any>([]);
   const isAdult = storage((s: any) => s.ui.isAdult);
   const setIsAdult = storage((s: any) => s.setIsAdult);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
 
   const message =
     "Actualmente tienes 18 años o más?, es posible que esta app muestre contenido adulto.";
   useEffect(() => {
-    const checkNetworkStatus = async () => {
-      const networkState = await Network.getNetworkStateAsync();
-      setIsConnected(networkState.isConnected);
+    let aceptwifi = false;
+    let aceptinternet = false;
+    const newIntervalId = setInterval(() => {
+      setIntervalId(newIntervalId);
+      const checkNetworkStatus = async () => {
+        const networkState = await Network.getNetworkStateAsync();
+        setIsConnected(networkState.isConnected);
+      };
+
+      checkNetworkStatus();
+
+      Network.getNetworkStateAsync().then(async (state) => {
+        setIsConnected(state.isConnected);
+        console.log(state);
+
+        if (state.type !== "WIFI" && !aceptwifi) {
+          Alert.alert(
+            await translateText("Alerta"),
+            await translateText("Se recomienda que use una red WiFi"),
+            [
+              {
+                text: "OK",
+                style: "default",
+                onPress: () => {
+                  aceptwifi = true;
+                },
+              },
+            ],
+          );
+        }
+        if (!state.isConnected && !aceptinternet) {
+          Alert.alert(
+            await translateText("Error de red"),
+            await translateText("No tiene conexión a Internet"),
+            [
+              {
+                text: "OK",
+                style: "default",
+                onPress: () => {
+                  aceptinternet = true;
+                },
+              },
+            ],
+          );
+        }
+      });
+    }, 3000);
+    return () => {
+      clearInterval(intervalId);
     };
-
-    checkNetworkStatus();
-
-    Network.getNetworkStateAsync().then((state) => {
-      setIsConnected(state.isConnected);
-
-      if (!state.isConnected) {
-        Alert.alert("Network Error", "No tiene conexión a Internet", [
-          // {
-          //   text: "Cancel",
-          //   onPress: () => console.log("Cancel Pressed"),
-          //   style: "cancel",
-          // },
-          {
-            text: "OK",
-            onPress: () => {
-              BackHandler.exitApp();
-            },
-          },
-        ]);
-      }
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     const showAlert = async () => {

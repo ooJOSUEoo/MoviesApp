@@ -41,10 +41,10 @@ export function AnimatedMovieCard({ movie, index }: any) {
     Animated.timing(opacity, {
       toValue: 1,
       duration: 1000,
-      delay: index * 50,
+      delay: 1 * 20,
       useNativeDriver: true,
     }).start();
-  }, [opacity, index]);
+  }, [opacity]);
 
   return (
     <Animated.View style={{ opacity }}>
