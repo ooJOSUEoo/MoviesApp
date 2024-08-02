@@ -12,6 +12,7 @@ import {
   TestIds,
 } from "react-native-google-mobile-ads";
 import { env } from "@/env/env";
+import { storage } from "@/lib/storage";
 
 const StyledPressable = styled(Pressable);
 
@@ -22,8 +23,9 @@ const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
 export function MovieCard({ movie }: any) {
   const [loaded, setLoaded] = useState(false);
   const numProb = Math.random();
+  const showAds = storage((s: any) => s.ui.showAds);
   useEffect(() => {
-    if (numProb < 0.4) {
+    if (numProb < 0.4 && showAds) {
       const unsubscribe = interstitial.addAdEventListener(
         AdEventType.LOADED,
         () => {
@@ -33,13 +35,12 @@ export function MovieCard({ movie }: any) {
       interstitial.load();
       return unsubscribe;
     }
-  }, [numProb]);
-
+  }, [numProb, showAds]);
   return (
     <Link
       href={`/movie/${movie.id}`}
       onPress={() => {
-        if (numProb < 0.4) {
+        if (numProb < 0.4 && showAds) {
           console.log("interstitial", numProb);
           try {
             interstitial.show();

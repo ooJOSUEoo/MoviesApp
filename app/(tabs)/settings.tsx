@@ -8,6 +8,7 @@ import {
   PermissionsAndroid,
   Platform,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { FA6 } from "../../components/Icons";
 
@@ -35,6 +36,8 @@ const StyledPressable = styled(Pressable);
 export default function Settings() {
   const isAdult = storage((s: any) => s.ui.isAdult);
   const lang = storage((s: any) => s.ui.lang);
+  const showAds = storage((s: any) => s.ui.showAds);
+  const setShowAds = storage((s: any) => s.setShowAds);
   const setIsAdult = storage((s: any) => s.setIsAdult);
   const setLang = storage((s: any) => s.setLang);
   const [open, setOpen] = useState(false);
@@ -81,7 +84,12 @@ export default function Settings() {
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             thumbColor={isAdult ? "#f5dd4b" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
-            onValueChange={(e) => setIsAdult(e)}
+            onValueChange={(e) => {
+              setIsAdult(e);
+              if (!e) {
+                setShowAds(true);
+              }
+            }}
             value={isAdult}
           />
           {/* {Platform.OS === "android" && (
@@ -125,6 +133,70 @@ export default function Settings() {
             ]}
             setOpen={setOpen}
             setValue={setLangValue}
+          />
+          <Text className="text-white text-white/90 mb-4">
+            <TC>Mostrar anuncios:</TC>
+          </Text>
+          <Switch
+            className="w-20"
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={showAds ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={async (e) => {
+              if (e === false) {
+                Alert.alert(
+                  await translateText("¿Estas seguro?"),
+                  await translateText("Tengo hambre 😥"),
+                  [
+                    {
+                      text: await translateText("No"),
+                      onPress: () => {},
+                      style: "cancel",
+                    },
+                    {
+                      text: await translateText("Si"),
+                      onPress: async () =>
+                        Alert.alert(
+                          await translateText("¿Deberas?"),
+                          await translateText("😥😥😥😥😥😥😥😥😥😥😥😥😥😥😥"),
+                          [
+                            {
+                              text: await translateText("No, es broma. 🤣"),
+                              onPress: async () =>
+                                ToastAndroid.show(
+                                  await translateText("Gracias. 😊"),
+                                  ToastAndroid.SHORT,
+                                ),
+                              style: "cancel",
+                            },
+                            {
+                              text: await translateText("Si 😈"),
+                              onPress: async () => {
+                                setShowAds(false);
+                                ToastAndroid.show(
+                                  await translateText(
+                                    "Anuncios molestos desactivados 😥, por lo menos te pido que dejes una buen valoration y comentario en la Play Store. 🙁",
+                                  ),
+                                  ToastAndroid.LONG,
+                                );
+                              },
+                              style: "default",
+                            },
+                          ],
+                        ),
+                      style: "default",
+                    },
+                  ],
+                );
+              } else {
+                setShowAds(true);
+                ToastAndroid.show(
+                  await translateText("Anuncios activados, gracias. 😀"),
+                  ToastAndroid.SHORT,
+                );
+              }
+            }}
+            value={showAds}
           />
         </View>
 

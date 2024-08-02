@@ -9,8 +9,7 @@ const s: StateStorage = {
   getItem: async (name: string): Promise<string | null> => {
     console.log(name, "has been retrieved");
     const data = (await AsyncStorage.getItem(name)) || null;
-
-    console.log("data: ", data);
+    // console.log("data: ", data);
     return data;
   },
   setItem: async (name: string, value: string): Promise<void> => {
@@ -29,6 +28,7 @@ export const storage = create(
       ui: {
         isAdult: null,
         lang: Localization.getLocales()[0].languageTag || "es-ES",
+        showAds: true,
       },
 
       setIsAdult: (value: boolean) => {
@@ -41,6 +41,12 @@ export const storage = create(
         set((state: any) => ({
           ...state,
           ui: { ...state.ui, lang: value },
+        }));
+      },
+      setShowAds: (value: boolean) => {
+        set((state: any) => ({
+          ...state,
+          ui: { ...state.ui, showAds: value },
         }));
       },
     }),
