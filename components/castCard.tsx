@@ -1,16 +1,52 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Image, Animated, Pressable, Text } from "react-native";
 import { Link } from "expo-router";
 import { styled } from "nativewind";
 import { getImageURL } from "@/lib/themoviedb";
 import React from "react";
 import { MI } from "./Icons";
+import {
+  AdEventType,
+  InterstitialAd,
+  TestIds,
+} from "react-native-google-mobile-ads";
+import { env } from "@/env/env";
 
 const StyledPressable = styled(Pressable);
-
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : env.androidAppId;
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  keywords: ["fashion", "clothing"],
+});
 export function CastCard({ cast }: any) {
+  const [loaded, setLoaded] = useState(false);
+  const numProb = Math.random();
+  useEffect(() => {
+    if (numProb < 0.4) {
+      const unsubscribe = interstitial.addAdEventListener(
+        AdEventType.LOADED,
+        () => {
+          setLoaded(true);
+        },
+      );
+      interstitial.load();
+      return unsubscribe;
+    }
+  }, [numProb]);
   return (
-    <Link href={`/cast/${cast?.id}`} asChild className="p-1">
+    <Link
+      href={`/cast/${cast?.id}`}
+      onPress={() => {
+        if (numProb < 0.4) {
+          try {
+            interstitial.show();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }}
+      asChild
+      className="p-1"
+    >
       <StyledPressable className="active:opacity-70 mb-2 rounded-xl">
         <View className="">
           <Image

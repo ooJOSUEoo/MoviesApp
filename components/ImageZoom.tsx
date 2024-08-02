@@ -96,31 +96,39 @@ export default function ImageZoom({ url, w, h, cN, scrollViewRef }: any) {
         </View>
       </StyledPressable>
       {isClicked && (
-        <View className="absolute top-0 left-0 z-10 w-full h-full bg-black/90">
+        <Pressable
+          onPress={() => setIsClicked(false)}
+          className="absolute top-0 left-0 z-10 w-full h-full bg-black/90"
+        >
           <View>
-            <Pressable
-              className="absolute top-0 left-1/2 z-10 p-3"
-              onPress={download}
-            >
-              <MI name="share" color="white" size={30} />
-            </Pressable>
-            <Pressable
-              className="absolute top-0 right-0 z-10 p-3"
-              onPress={() => setIsClicked(false)}
-            >
-              <MI name="close" color="white" size={30} />
-            </Pressable>
+            <View>
+              <Pressable
+                className="absolute top-0 left-1/2 z-10 p-3"
+                onPress={(e) => {
+                  e.stopPropagation();
+                  download();
+                }}
+              >
+                <MI name="share" color="white" size={30} />
+              </Pressable>
+              <Pressable
+                className="absolute top-0 right-0 z-10 p-3"
+                onPress={() => setIsClicked(false)}
+              >
+                <MI name="close" color="white" size={30} />
+              </Pressable>
+            </View>
+            <Image
+              className={
+                cN +
+                "  absolute top-[20vh] left-0 transform -translate-x-1/2 -translate-y-1/2"
+              }
+              source={{ uri: url }}
+              style={{ width: `${100}%`, aspectRatio: 1 }}
+              resizeMode="contain"
+            />
           </View>
-          <Image
-            className={
-              cN +
-              "  absolute top-[20vh] left-0 transform -translate-x-1/2 -translate-y-1/2"
-            }
-            source={{ uri: url }}
-            style={{ width: `${100}%`, aspectRatio: 1 }}
-            resizeMode="contain"
-          />
-        </View>
+        </Pressable>
       )}
     </>
   );

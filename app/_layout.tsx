@@ -42,8 +42,6 @@ export default function Layout() {
 
       Network.getNetworkStateAsync().then(async (state) => {
         setIsConnected(state.isConnected);
-        console.log(state);
-
         if (state.type !== "WIFI" && !aceptwifi) {
           Alert.alert(
             await translateText("Alerta"),
