@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist, createJSONStorage, StateStorage } from "zustand/middleware";
-import { get, set, del } from "idb-keyval"; // can use anything: IndexedDB, Ionic Storage, etc.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Localization from "expo-localization";
 

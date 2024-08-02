@@ -13,9 +13,7 @@ import {
 } from "react-native-google-mobile-ads";
 import { env } from "@/env/env";
 import { storage } from "@/lib/storage";
-
 const StyledPressable = styled(Pressable);
-
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : env.androidAppId;
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
   keywords: ["fashion", "clothing"],

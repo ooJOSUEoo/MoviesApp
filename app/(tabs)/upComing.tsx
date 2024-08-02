@@ -10,34 +10,14 @@ import { Screen } from "@/components/Screen";
 import { AnimatedMovieCard } from "@/components/movieCard";
 import React from "react";
 import {
-  AppOpenAd,
   TestIds,
-  AdEventType,
   BannerAd,
   BannerAdSize,
-  InterstitialAd,
 } from "react-native-google-mobile-ads";
 import { env } from "./../../env/env";
 
 const adUnitId = __DEV__ ? TestIds.BANNER : env.androidAppId;
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
-
 export default function UpComing() {
-  // const [loaded, setLoaded] = useState(false);
-  AppOpenAd.createForAdRequest(adUnitId, {
-    keywords: ["fashion", "clothing"],
-  });
-  useEffect(() => {
-    const unsubscribe = interstitial.addAdEventListener(
-      AdEventType.LOADED,
-      () => {
-        // setLoaded(true);
-      },
-    );
-
-    interstitial.load();
-    return unsubscribe;
-  }, []);
   const flatListRef = React.useRef<FlatList>(null);
   const [scrollFlatList, setScrollFlatList] = useState(0);
   const [upComingMovies, setUpComingMovies] = useState<any>([]);

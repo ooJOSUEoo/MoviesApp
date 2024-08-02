@@ -1,17 +1,10 @@
 import { styled } from "nativewind";
 import { useState } from "react";
-import {
-  Image,
-  PermissionsAndroid,
-  Platform,
-  Pressable,
-  ToastAndroid,
-  View,
-} from "react-native";
+import { Image, Pressable, ToastAndroid, View } from "react-native";
 import { MI } from "./Icons";
 import React from "react";
 import * as FileSystem from "expo-file-system";
-import * as Linking from "expo-linking";
+// import * as Linking from "expo-linking";
 import { shareAsync } from "expo-sharing";
 
 export default function ImageZoom({ url, w, h, cN, scrollViewRef }: any) {

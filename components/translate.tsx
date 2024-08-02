@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import translate from "translate"; // Asegúrate de que esta importación sea correcta
-import * as Localization from "expo-localization";
+// import * as Localization from "expo-localization";
 import { storage } from "@/lib/storage";
 
 interface TranslateContentProps {

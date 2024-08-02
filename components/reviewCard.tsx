@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { View, Image, Animated, Pressable, Text } from "react-native";
+import { View, Image, Animated, Text } from "react-native";
 import { getImageURL } from "@/lib/themoviedb";
 import React from "react";
 

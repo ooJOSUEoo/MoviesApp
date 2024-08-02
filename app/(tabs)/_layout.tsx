@@ -1,5 +1,4 @@
 import { router, Tabs, usePathname } from "expo-router";
-
 import { FA } from "../../components/Icons";
 import React, { useEffect, useState } from "react";
 import { translateText, useTranslateText } from "@/helpers/translateText";

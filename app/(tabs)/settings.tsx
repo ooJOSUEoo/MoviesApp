@@ -1,27 +1,19 @@
 import { Link } from "expo-router";
 import {
-  Pressable,
   ScrollView,
   Switch,
   Text,
   View,
-  PermissionsAndroid,
-  Platform,
   ToastAndroid,
   Alert,
 } from "react-native";
 import { FA6 } from "../../components/Icons";
-
-import { styled } from "nativewind";
 import { Screen } from "../../components/Screen";
 import React, { useEffect, useState } from "react";
 import {
-  AppOpenAd,
   TestIds,
-  AdEventType,
   BannerAd,
   BannerAdSize,
-  InterstitialAd,
 } from "react-native-google-mobile-ads";
 import { env } from "../../env/env";
 import { TC } from "@/components/translate";
@@ -30,9 +22,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { translateText } from "@/helpers/translateText";
 
 const adUnitId = __DEV__ ? TestIds.BANNER : env.androidAppId;
-const interstitial = InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
-
-const StyledPressable = styled(Pressable);
 export default function Settings() {
   const isAdult = storage((s: any) => s.ui.isAdult);
   const lang = storage((s: any) => s.ui.lang);
@@ -42,21 +31,6 @@ export default function Settings() {
   const setLang = storage((s: any) => s.setLang);
   const [open, setOpen] = useState(false);
   const [langValue, setLangValue] = useState(lang);
-  const [loaded, setLoaded] = useState(false);
-  const appOpenAd = AppOpenAd.createForAdRequest(adUnitId, {
-    keywords: ["fashion", "clothing"],
-  });
-  useEffect(() => {
-    const unsubscribe = interstitial.addAdEventListener(
-      AdEventType.LOADED,
-      () => {
-        setLoaded(true);
-      },
-    );
-
-    interstitial.load();
-    return unsubscribe;
-  }, []);
   useEffect(() => {
     console.log("langValue: ", langValue);
     setLang(langValue);

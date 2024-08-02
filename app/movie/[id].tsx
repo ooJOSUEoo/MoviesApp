@@ -6,7 +6,6 @@ import {
   Text,
   ToastAndroid,
   View,
-  Image,
 } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
 import { Screen } from "../../components/Screen";

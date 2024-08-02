@@ -24,7 +24,6 @@ export default function Detail() {
   const { id } = useLocalSearchParams();
   const [castInfo, setCastInfo] = useState<any>(null);
   const [moviesCast, setMoviesCast] = useState<any>([]);
-
   useEffect(() => {
     if (id) {
       getCastDetails(id as unknown as number).then(setCastInfo);

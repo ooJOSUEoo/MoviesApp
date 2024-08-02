@@ -1,7 +1,7 @@
 import axios from "axios";
 import { env } from "../env/env";
-import { Platform } from "react-native";
-import * as Localization from "expo-localization";
+// import { Platform } from "react-native";
+// import * as Localization from "expo-localization";
 import { storage } from "./storage";
 
 const infoAPI = {
